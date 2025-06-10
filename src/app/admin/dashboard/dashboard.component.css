@@ -1,0 +1,111 @@
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  margin-left: 320px; /* Espace pour sidebar */
+  padding: 20px;
+  background-color: #f4f6f8;
+  min-height: calc(100vh - 100px); /* Ajuste la hauteur pour le footer */
+  box-sizing: border-box;
+  transition: margin-left 0.3s ease;
+}
+
+h2 {
+  margin-bottom: 25px;
+  font-weight: bolder;
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+  justify-content: start;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  padding: 30px 60px;
+  flex: 1 1 250px;
+  max-width: 360px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+  font-size: 48px;
+  color: #2980b9;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  font-size: 36px;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+
+.card p {
+  font-size: 18px;
+  color: #555;
+}
+
+
+/* ======== Courbe Historique ========== */
+.chart-wrapper {
+  margin-top: 40px;
+  background-color: #ffffff;
+  padding: 49px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  height: 450px;
+  max-width: 60%;
+}
+
+/* Responsive pour mobiles */
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .cards-wrapper {
+    justify-content: center;
+  }
+
+  .card {
+    max-width: 100%;
+  }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0);}
+  50% { transform: translateY(-15px);}
+}
+
+.card:hover .card-icon {
+  animation: bounce 0.5s;
+}
+.card:hover h3 {
+  color: #2980b9;
+}
+.card:hover p {
+  color: #555;
+}
+.card:hover {
+  background-color: #f0f8ff;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+.card:hover {
+  background-color: #e0f7fa;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}

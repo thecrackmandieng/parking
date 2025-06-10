@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../header/header.component'; // Adjust the path as needed
 
 interface Parking {
   id: number;
@@ -14,7 +15,7 @@ interface Parking {
 @Component({
   selector: 'app-parking-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HeaderComponent],
   templateUrl: './parking-list.component.html',
   styleUrls: ['./parking-list.component.css']
 })
