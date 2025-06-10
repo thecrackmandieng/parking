@@ -1,0 +1,13 @@
+<div>
+  <h2>Parking Management</h2>
+  <ul>
+    <li *ngFor="let parking of parkings">
+      {{ parking.name }}
+      <button (click)="deleteParking(parking.id)">Delete</button>
+    </li>
+  </ul>
+  <div>
+    <input #newParkingName placeholder="New parking name">
+    <button (click)="addParking(newParkingName.value); newParkingName.value=''">Add Parking</button>
+  </div>
+</div>

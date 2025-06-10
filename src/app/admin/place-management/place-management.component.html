@@ -1,0 +1,14 @@
+<div>
+  <h2>Place Management</h2>
+  <ul>
+    <li *ngFor="let place of places">
+      {{ place.name }} (Parking ID: {{ place.parkingId }})
+      <button (click)="deletePlace(place.id)">Delete</button>
+    </li>
+  </ul>
+  <div>
+    <input #newPlaceName placeholder="New place name">
+    <input #parkingId placeholder="Parking ID">
+    <button (click)="addPlace(newPlaceName.value, +parkingId.value); newPlaceName.value=''; parkingId.value=''">Add Place</button>
+  </div>
+</div>

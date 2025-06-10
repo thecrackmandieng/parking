@@ -1,0 +1,51 @@
+<div class="container">
+  <h2>Liste des Parkings</h2>
+
+  <input
+    type="text"
+    placeholder="Rechercher par nom ou localisation..."
+    [(ngModel)]="searchTerm"
+    class="search-input"
+  />
+
+  <div class="cards-wrapper">
+    <div
+      *ngFor="let parking of filteredParkings"
+      class="card"
+      [class.full]="parking.availableSpots === 0"
+      (click)="openDetails(parking)"
+    >
+      <img class="card-img" [src]="parking.imageUrl" [alt]="parking.name" />
+      <div class="card-content">
+        <h3>{{ parking.name }}</h3>
+        <p class="location">{{ parking.location }}</p>
+        <p class="spots">
+          Places disponibles : {{ parking.availableSpots }} / {{ parking.capacity }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modale détails + réservation -->
+  <div class="modal" *ngIf="selectedParking">
+    <div class="modal-content">
+      <span class="close" (click)="closeDetails()">&times;</span>
+      <h3>{{ selectedParking.name }}</h3>
+      <img [src]="selectedParking.imageUrl" [alt]="selectedParking.name" />
+      <p><strong>Localisation :</strong> {{ selectedParking.location }}</p>
+      <p><strong>Capacité :</strong> {{ selectedParking.capacity }}</p>
+      <p><strong>Places disponibles :</strong> {{ selectedParking.availableSpots }}</p>
+
+      <button
+        (click)="reserve()"
+        [disabled]="selectedParking.availableSpots === 0 || reservationConfirmed"
+      >
+        {{ reservationConfirmed
+          ? 'Réservé !'
+          : selectedParking.availableSpots === 0
+          ? 'Complet'
+          : 'Réserver' }}
+      </button>
+    </div>
+  </div>
+</div>
