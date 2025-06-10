@@ -1,0 +1,105 @@
+.parking-container {
+  margin-left: 320px; /* Espace pour la sidebar */
+  padding: 20px;
+  background-color: #f4f6f8;
+  min-height: 90vh;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.parking-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.parking-actions input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.parking-actions button {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.parking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.parking-item {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.parking-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.parking-buttons button {
+  margin-left: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.parking-buttons button:hover {
+  color: #e74c3c;
+}
+.parking-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.parking-buttons button i {
+  font-size: 20px;
+  
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .parking-container {
+    margin-left: 0;
+  }
+
+  .parking-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .parking-buttons {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}

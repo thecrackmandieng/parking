@@ -1,9 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderComponent } from "../../header/header.component";
+import { SidebarComponent } from "../../sidebar/sidebar.component";
+import { FormsModule } from '@angular/forms'; // Import FormsModule for ngModel
+import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf, ngFor, etc.
+import { RouterModule } from '@angular/router'; // Import RouterModule for navigation
 
 @Component({
   selector: 'app-parking-management',
+  standalone: true,
   templateUrl: './parking-management.component.html',
-  styleUrls: ['./parking-management.component.css']
+  styleUrls: ['./parking-management.component.css'],
+  imports: [HeaderComponent, SidebarComponent, FormsModule, CommonModule, RouterModule]
 })
 export class ParkingManagementComponent implements OnInit {
   parkings: any[] = []; // Remplacez "any" par une interface ou un type approprié
