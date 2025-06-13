@@ -17,7 +17,7 @@ export class DashboardComponent {
   numberOfParkings = 8;
 
   lineChartData = [
-    { data: [10, 20, 30, 25, 40, 60, 75], label: 'Réservations hebdo' }
+    { data: [10, 20, 30, 25, 35, 60, 75], label: 'Réservations hebdo' }
   ];
 
   lineChartLabels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
