@@ -7,12 +7,13 @@ import { ParkingManagementComponent } from './admin/parking-management/parking-m
 import { PlaceManagementComponent } from './admin/place-management/place-management.component';
 import { ReservationManagementComponent } from './admin/reservation-management/reservation-management.component';
 import { adminGuard } from './guards/admin.guard';
-
+import { AccueilComponent } from './accueil/accueil/accueil.component';
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/accueil', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'parking', component: ParkingListComponent },
+   { path: 'accueil', component: AccueilComponent },
   {
     path: 'admin',
     canActivate: [adminGuard],
@@ -23,5 +24,5 @@ export const routes: Routes = [
       { path: 'reservations', component: ReservationManagementComponent },
     ]
   },
-  { path: '**', redirectTo: '/login' } // Route par défaut pour les chemins non reconnus
+  { path: '**', redirectTo: '/accueil' } // Route par défaut pour les chemins non reconnus
 ];
