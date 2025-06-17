@@ -1,7 +1,87 @@
-<div class="accueil-container">
-  <h1 class="accueil-title">Bienvenue</h1>
-  <div class="accueil-buttons">
-    <button class="accueil-button signup-button" (click)="onSignUp()">S'inscrire</button>
-    <button class="accueil-button login-button" (click)="onLogin()">Se connecter</button>
-  </div>
+<div class="home-container">
+  <!-- Header avec boutons de navigation -->
+  <header class="main-header">
+    <div class="logo">
+      <img src="assets/nab.jpeg" alt="Smart Parking Logo" class="logo-img">
+      <h1>Smart<span>Parking</span></h1>
+    </div>
+    <nav class="auth-buttons">
+      <button class="btn btn-login" routerLink="/login">Se connecter</button>
+      <button class="btn btn-register" routerLink="/inscription">S'inscrire</button>
+    </nav>
+  </header>
+
+  <!-- Section Hero avec image de fond -->
+  <section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h2>Stationnement intelligent,<br>ville fluidifiée</h2>
+      <p class="tagline">Réservez votre place en avance et gagnez du temps chaque jour</p>
+      <div class="cta-container">
+        <button class="cta-button" routerLink="/inscription">Essayer gratuitement</button>
+        <button class="secondary-button" routerLink="/features">Découvrir</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Features -->
+  <section class="features-section">
+    <h3>Votre expérience parking, révolutionnée</h3>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="assets/icons/time.png" alt="Icône temps">
+        </div>
+        <h4>Gain de temps</h4>
+        <p>Notre technologie vous guide directement vers une place disponible</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="assets/icons/price.png" alt="Icône prix">
+        </div>
+        <h4>Tarifs optimisés</h4>
+        <p>Bénéficiez des meilleurs tarifs avec notre algorithme intelligent</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <img src="assets/icons/eco.png" alt="Icône écologie">
+        </div>
+        <h4>Éco-responsable</h4>
+        <p>Réduisez vos émissions en évitant les tours inutiles</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section App Screenshot -->
+  <section class="app-showcase">
+    <div class="app-content">
+      <h3>L'application intuitive</h3>
+      <p>Toutes les fonctionnalités dont vous avez besoin dans une interface simple et élégante</p>
+      <ul class="app-features">
+        <li>Réservation en 3 clics</li>
+        <li>Historique de vos parkings</li>
+        <li>Paiement sécurisé</li>
+        <li>Alertes temps réel</li>
+      </ul>
+    </div>
+    <div class="app-image">
+      <img src="assets/vb.jpg" alt="Capture d'écran de l'application" class="phone-mockup">
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <h2>Smart<span>Parking</span></h2>
+        <p>La solution de stationnement du futur</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">À propos</a>
+        <a href="#">Contact</a>
+        <a href="#">CGU</a>
+        <a href="#">Villes disponibles</a>
+      </div>
+    </div>
+  </footer>
 </div>
