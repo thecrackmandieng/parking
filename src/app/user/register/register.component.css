@@ -1,54 +1,171 @@
-.register-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+.register-container {
+  background-image: url('../../../assets/vb.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* pour empiler header + form */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Header en haut */
+.main-header {
+  width: 200%;
+  max-width: 500px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+}
+
+.logo h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #007BFF;
+  margin: 0;
+  text-decoration: none;
+}
+
+.logo span {
+  color: #28a745;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.auth-buttons button {
+  background-color: transparent;
+  border: 2px solid #007BFF;
+  color: #007BFF;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.auth-buttons button:hover {
+  background-color: #007BFF;
+  color: white;
+}
+
+/* Formulaire */
+.register-box {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 label {
+  margin-top: 12px;
   display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
+  color: #444;
+  font-weight: bold;
 }
 
 input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-}
-
-.error {
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.alert {
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-}
-
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 15px;
 }
 
 button {
   width: 100%;
-  padding: 0.5rem;
-  margin-top: 1rem;
+  padding: 12px;
+  margin-top: 25px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.login-link {
-  margin-top: 1rem;
-  text-align: center;
+button:hover {
+  background-color: #0056b3;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Responsive mobile */
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
+  }
+  .main-header {
+    max-width: 100%;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .auth-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+  .register-box {
+    padding: 20px 15px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  input, button {
+    font-size: 14px;
+  }
 }

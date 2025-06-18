@@ -78,7 +78,7 @@
 /* Hero Section avec image de fond */
 .hero-section {
   height: 100vh;
-  background: 
+  background:
     linear-gradient(135deg, rgba(142, 191, 228, 0), rgba(0, 184, 147, 0)),
     url('/assets/joli.jpg') no-repeat center center;
   background-size: cover;
@@ -321,4 +321,30 @@
 
 .footer-links a:hover {
   color: #0984e3;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none; /* enlever le soulignement du lien */
+  color: inherit; /* garder la couleur du texte comme le reste du header */
+  gap: 10px; /* espacement entre l'image et le texte */
+  cursor: pointer; /* pour indiquer que c'est cliquable */
+}
+
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* pour arrondir l'image si c’est un logo rond */
+  object-fit: cover;
+}
+
+.logo h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.logo h1 span {
+  color: #007BFF; /* couleur différente pour "Parking" */
 }

@@ -1,13 +1,27 @@
-<!-- login.component.html -->
 <div class="login-container">
+
+  <!-- Header avec logo et boutons -->
+  <header class="main-header">
+    <a routerLink="/accueil" class="logo">
+      <img src="assets/nab.jpeg" alt="Smart Parking Logo" class="logo-img" />
+      <h1>Smart<span>Parking</span></h1>
+    </a>
+
+    <nav class="auth-buttons">
+      <button class="btn btn-login" routerLink="/login">Se connecter</button>
+      <button class="btn btn-register" routerLink="/inscription">S'inscrire</button>
+    </nav>
+  </header>
+
+  <!-- Formulaire de connexion -->
   <form class="login-box" (ngSubmit)="onSubmit()">
     <h2>Connexion</h2>
 
     <label for="username">Nom d'utilisateur</label>
-    <input id="username" name="username" [(ngModel)]="username" required>
+    <input id="username" name="username" [(ngModel)]="username" required placeholder="Entrez votre nom d'utilisateur" />
 
     <label for="password">Mot de passe</label>
-    <input id="password" type="password" name="password" [(ngModel)]="password" required>
+    <input id="password" type="password" name="password" [(ngModel)]="password" required placeholder="Entrez votre mot de passe" />
 
     <button type="submit">Se connecter</button>
   </form>
