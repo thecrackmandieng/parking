@@ -1,14 +1,30 @@
-<div>
-  <h2>Place Management</h2>
-  <ul>
-    <li *ngFor="let place of places">
-      {{ place.name }} (Parking ID: {{ place.parkingId }})
-      <button (click)="deletePlace(place.id)">Delete</button>
-    </li>
-  </ul>
-  <div>
-    <input #newPlaceName placeholder="New place name">
-    <input #parkingId placeholder="Parking ID">
-    <button (click)="addPlace(newPlaceName.value, +parkingId.value); newPlaceName.value=''; parkingId.value=''">Add Place</button>
+<div class="app-container">
+  <app-header>Parking Management</app-header>
+  <div class="main-content">
+    <app-sidebar>Sidebar Content</app-sidebar>
+    <div class="content">
+      <h2>Place Management</h2>
+      <div class="filter-section">
+        <label for="parkingIdFilter">Filter by Parking ID:</label>
+        <select id="parkingIdFilter" [(ngModel)]="selectedParkingId" (change)="onParkingSelect()">
+          <option [value]="null">All Parking Lots</option>
+          <option *ngFor="let parking of uniqueParkingIds" [value]="parking">Parking ID: {{ parking }}</option>
+        </select>
+      </div>
+      <div class="parking-places">
+        <div *ngFor="let place of getFilteredPlaces()" class="place-card" [ngClass]="{'occupied': place.isOccupied, 'free': !place.isOccupied}">
+          <span>{{ place.name }}</span>
+          <span>(Parking ID: {{ place.parkingId }})</span>
+          <div *ngIf="place.isOccupied">
+            License Plate: {{ licensePlates[place.id] }}
+          </div>
+        </div>
+      </div>
+      <div>
+        <input #newPlaceName placeholder="New place name">
+        <input #parkingId placeholder="Parking ID">
+        <button (click)="addPlace(newPlaceName.value, +parkingId.value); newPlaceName.value=''; parkingId.value=''">Add Place</button>
+      </div>
+    </div>
   </div>
 </div>
