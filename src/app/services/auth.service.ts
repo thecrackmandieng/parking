@@ -18,34 +18,28 @@ export class AuthService {
    * @param password 
    * @returns Observable avec le statut d'authentification et le rôle
    */
-  login(username: string, password: string): Observable<{ isAuthenticated: boolean, role?: string }> {
+  login(username: string, password: string): Observable<{ isAuthenticated: boolean, role?: string, username?: string }> {
     // Simulation de délai réseau
     return of(null).pipe(
       delay(500),
-      tap(() => {
-        // Recherche de l'utilisateur
+      map(() => {
         const user = this.users.find(u => u.username === username && u.password === password);
         
         if (!user) {
           throw new Error('Identifiants incorrects');
         }
+        return user;
       }),
-      tap(() => {
-        const user = this.users.find(u => u.username === username && u.password === password);
-        if (user) {
-          this.setSession(user);
-        }
-      }),
-      map(() => {
-        const user = this.users.find(u => u.username === username && u.password === password);
-        return { 
-          isAuthenticated: true, 
-          role: user?.role 
-        };
-      }),
+      tap(user => this.setSession(user)),
+      map(user => ({ 
+        isAuthenticated: true,
+        role: user.role,
+        username: user.username
+      })),
       catchError(error => {
         return of({ 
-          isAuthenticated: false 
+          isAuthenticated: false,
+          message: error.message
         });
       })
     );
@@ -65,7 +59,10 @@ export class AuthService {
       return throwError(() => new Error('Ce nom d\'utilisateur est déjà pris'))
         .pipe(
           delay(500),
-          catchError(error => of({ success: false, message: error.message }))
+          catchError(error => of({ 
+            success: false, 
+            message: error.message 
+          }))
         );
     }
     
@@ -74,16 +71,23 @@ export class AuthService {
       return throwError(() => new Error('Le mot de passe doit contenir au moins 6 caractères'))
         .pipe(
           delay(500),
-          catchError(error => of({ success: false, message: error.message }))
+          catchError(error => of({ 
+            success: false, 
+            message: error.message 
+          }))
         );
     }
     
     // Ajoute le nouvel utilisateur (simulation)
-    this.users.push({ 
+    const newUser = { 
       username, 
       password, 
       role: 'client' // Par défaut, nouveau utilisateur = client
-    });
+    };
+    this.users.push(newUser);
+    
+    // Crée automatiquement une session après inscription
+    this.setSession(newUser);
     
     return of({ 
       success: true,
@@ -102,46 +106,60 @@ export class AuthService {
    * Vérifie si l'utilisateur est connecté
    */
   isLoggedIn(): boolean {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('isLoggedIn') === 'true';
-    }
-    return false;
+    return this.getFromStorage('isLoggedIn') === 'true';
+  }
+
+  /**
+   * Vérifie si l'utilisateur est admin
+   */
+  isAdmin(): boolean {
+    return this.getFromStorage('userRole') === 'admin';
   }
 
   /**
    * Récupère le rôle de l'utilisateur
    */
   getUserRole(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('userRole');
-    }
-    return null;
+    return this.getFromStorage('userRole');
   }
 
   /**
    * Récupère le nom d'utilisateur
    */
   getUsername(): string | null {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('username');
-    }
-    return null;
+    return this.getFromStorage('username');
   }
 
   // Méthodes privées pour gérer la session
   private setSession(user: { username: string, role: string }): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('isLoggedIn', 'true');
-      localStorage.setItem('userRole', user.role);
-      localStorage.setItem('username', user.username);
-    }
+    this.setToStorage('isLoggedIn', 'true');
+    this.setToStorage('userRole', user.role);
+    this.setToStorage('username', user.username);
   }
 
   private clearSession(): void {
+    ['isLoggedIn', 'userRole', 'username'].forEach(key => {
+      this.removeFromStorage(key);
+    });
+  }
+
+  // Méthodes helpers pour le localStorage
+  private setToStorage(key: string, value: string): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('isLoggedIn');
-      localStorage.removeItem('userRole');
-      localStorage.removeItem('username');
+      localStorage.setItem(key, value);
+    }
+  }
+
+  private getFromStorage(key: string): string | null {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem(key);
+    }
+    return null;
+  }
+
+  private removeFromStorage(key: string): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(key);
     }
   }
 }
