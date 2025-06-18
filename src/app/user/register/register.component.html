@@ -1,19 +1,67 @@
-<div class="login-container">
-  <form class="login-box" (ngSubmit)="onSubmit()">
-    <h2>Inscription</h2>
-
-    <label for="firstname">Prénom</label>
-    <input id="firstname" name="firstname" [(ngModel)]="firstname" required>
-
-    <label for="lastname">Nom</label>
-    <input id="lastname" name="lastname" [(ngModel)]="lastname" required>
-
-    <label for="username">Nom d'utilisateur</label>
-    <input id="username" name="username" [(ngModel)]="username" required>
-
-    <label for="password">Mot de passe</label>
-    <input id="password" type="password" name="password" [(ngModel)]="password" required>
-
-    <button type="submit">S'inscrire</button>
+<div class="register-container">
+  <h2>Inscription</h2>
+  
+  <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+    <div class="form-group">
+      <label for="username">Nom d'utilisateur</label>
+      <input 
+        type="text" 
+        id="username" 
+        name="username" 
+        [(ngModel)]="username" 
+        required
+        #usernameInput="ngModel"
+      >
+      <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+        Le nom d'utilisateur est requis
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input 
+        type="password" 
+        id="password" 
+        name="password" 
+        [(ngModel)]="password" 
+        required
+        minlength="6"
+        #passwordInput="ngModel"
+      >
+      <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+        <div *ngIf="passwordInput.errors?.['required']">Le mot de passe est requis</div>
+        <div *ngIf="passwordInput.errors?.['minlength']">
+          Le mot de passe doit faire au moins 6 caractères
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="confirmPassword">Confirmer le mot de passe</label>
+      <input 
+        type="password" 
+        id="confirmPassword" 
+        name="confirmPassword" 
+        [(ngModel)]="confirmPassword" 
+        required
+        #confirmPasswordInput="ngModel"
+      >
+      <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">
+        La confirmation du mot de passe est requise
+      </div>
+    </div>
+    
+    <button type="submit" [disabled]="isLoading">
+      {{ isLoading ? 'Inscription en cours...' : 'S\'inscrire' }}
+    </button>
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    
+    <p class="login-link">
+      Déjà un compte ? 
+      <a routerLink="/login">Se connecter</a>
+    </p>
   </form>
 </div>

@@ -101,11 +101,12 @@ h2 {
   background-color: #f0f8ff;
   box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+.card-icon:hover {
+  color: #3498db;
+  transform: scale(1.1);
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 .card:hover {
-  background-color: #e0f7fa;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
 }

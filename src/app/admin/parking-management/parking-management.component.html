@@ -1,13 +1,27 @@
-<div>
-  <h2>Parking Management</h2>
-  <ul>
-    <li *ngFor="let parking of parkings">
-      {{ parking.name }}
-      <button (click)="deleteParking(parking.id)">Delete</button>
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="parking-container">
+  <h2>Gestion des parkings</h2>
+
+  <div class="parking-actions">
+    <input #newParkingName placeholder="Nom du nouveau parking" />
+    <button (click)="addParking(newParkingName.value); newParkingName.value=''">
+      <i class="fa fa-plus"></i> Ajouter
+    </button>
+  </div>
+
+  <ul class="parking-list">
+    <li *ngFor="let parking of parkings" class="parking-item">
+      <span class="parking-name">{{ parking.name }}</span>
+      <div class="parking-buttons">
+        <button title="Voir"><i class="fa fa-eye"></i></button>
+        <button title="Modifier"><i class="fa fa-edit"></i></button>
+        <button title="Bloquer"><i class="fa fa-ban"></i></button>
+        <button title="Supprimer" (click)="deleteParking(parking.id)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
     </li>
   </ul>
-  <div>
-    <input #newParkingName placeholder="New parking name">
-    <button (click)="addParking(newParkingName.value); newParkingName.value=''">Add Parking</button>
-  </div>
 </div>
