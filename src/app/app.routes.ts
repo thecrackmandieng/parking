@@ -14,14 +14,14 @@ import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'accueil', pathMatch: 'full' },
+  
 
   { path: 'accueil', component: AccueilComponent, title: 'Accueil' },
   { path: 'login', component: LoginComponent, title: 'Connexion' },
   { path: 'inscription', component: RegisterComponent, title: 'Inscription' }, // ✅ corrigé ici
 
   { path: 'parkings', component: ParkingListComponent, title: 'Liste des parkings' },
-
-  {
+    {
     path: 'admin',
     canActivate: [AdminGuard],
     children: [

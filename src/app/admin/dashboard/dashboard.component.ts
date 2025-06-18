@@ -4,6 +4,7 @@ import { ChartConfiguration } from 'chart.js';
 import { HeaderComponent } from '../../header/header.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
 
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
