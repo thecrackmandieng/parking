@@ -17,7 +17,12 @@ export class ReservationManagementComponent implements OnInit {
   }
 
   deleteReservation(id: number): void {
-    // Logique pour supprimer une réservation
-    this.reservations = this.reservations.filter(reservation => reservation.id !== id);
+  const reservation = this.reservations.find(r => r.id === id);
+  if (reservation) {
+    reservation.deleting = true;
+    setTimeout(() => {
+      this.reservations = this.reservations.filter(r => r.id !== id);
+    }, 300); // Correspond à la durée de l'animation
   }
+}
 }

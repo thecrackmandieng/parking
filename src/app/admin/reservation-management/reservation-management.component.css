@@ -1,1 +1,113 @@
- 
+/* reservation-management.component.css */
+
+/* Conteneur principal */
+.reservation-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre */
+.reservation-container h2 {
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 25px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #3498db;
+  text-align: center;
+}
+
+/* Liste des réservations */
+.reservation-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Élément de réservation */
+.reservation-item {
+  background-color: white;
+  margin-bottom: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.reservation-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Informations de réservation */
+.reservation-info {
+  flex: 1;
+  font-size: 16px;
+  color: #34495e;
+}
+
+.reservation-info strong {
+  color: #2c3e50;
+}
+
+/* Bouton de suppression */
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  margin-left: 15px;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Message quand vide */
+.empty-message {
+  text-align: center;
+  color: #7f8c8d;
+  font-style: italic;
+  padding: 30px;
+  background-color: #ecf0f1;
+  border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .reservation-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .delete-btn {
+    margin-left: 0;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+  
+  .reservation-info {
+    margin-bottom: 10px;
+  }
+}
+
+/* Animation pour la suppression */
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9); }
+}
+
+.deleting {
+  animation: fadeOut 0.3s forwards;
+}

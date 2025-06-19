@@ -1,9 +1,19 @@
 <div>
   <h2>Reservation Management</h2>
-  <ul>
-    <li *ngFor="let reservation of reservations">
+   
+    <ul class="reservation-list">
+       <li *ngFor="let reservation of reservations">
       Reservation ID: {{ reservation.id }} (User ID: {{ reservation.userId }}, Place ID: {{ reservation.placeId }}, Date: {{ reservation.date }})
       <button (click)="deleteReservation(reservation.id)">Delete</button>
     </li>
-  </ul>
+  <li *ngIf="reservations.length === 0" class="empty-message">
+    Aucune réservation trouvée
+  </li>
+  <li *ngFor="let reservation of reservations" 
+      class="reservation-item"
+      [class.deleting]="reservation.deleting"> <!-- Pour l'animation -->
+    ...
+  </li>
+</ul>
+  
 </div>
