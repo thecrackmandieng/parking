@@ -14,21 +14,21 @@ import { AdminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'accueil', pathMatch: 'full' },
-  
 
   { path: 'accueil', component: AccueilComponent, title: 'Accueil' },
   { path: 'login', component: LoginComponent, title: 'Connexion' },
-  { path: 'inscription', component: RegisterComponent, title: 'Inscription' }, // ✅ corrigé ici
-
+  { path: 'inscription', component: RegisterComponent, title: 'Inscription' },
   { path: 'parkings', component: ParkingListComponent, title: 'Liste des parkings' },
-    {
+
+  {
     path: 'admin',
     canActivate: [AdminGuard],
+    component: DashboardComponent, // ✅ layout parent
     children: [
       { path: 'dashboard', component: DashboardComponent, title: 'Tableau de bord admin' },
+      { path: 'reservations', component: ReservationManagementComponent, title: 'Gestion des réservations' },
       { path: 'parkings', component: ParkingManagementComponent, title: 'Gestion des parkings' },
       { path: 'places', component: PlaceManagementComponent, title: 'Gestion des places' },
-      { path: 'reservations', component: ReservationManagementComponent, title: 'Gestion des réservations' },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

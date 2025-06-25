@@ -3,13 +3,12 @@ import { NgChartsModule } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { HeaderComponent } from '../../header/header.component';
 import { SidebarComponent } from '../../sidebar/sidebar.component';
-import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, SidebarComponent, NgChartsModule, RouterModule,],
+  imports: [HeaderComponent, SidebarComponent, NgChartsModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
