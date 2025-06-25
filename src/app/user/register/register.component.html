@@ -1,12 +1,10 @@
 <div class="register-container">
-
   <!-- Header avec boutons de navigation -->
   <header class="main-header">
- <a routerLink="/accueil" class="logo">
-   <img src="assets/nab.jpeg" alt="Smart Parking Logo" class="logo-img" />
-   <h1>Smart<span>Parking</span></h1>
- </a>
-
+    <a routerLink="/accueil" class="logo">
+      <img src="assets/nab.jpeg" alt="Smart Parking Logo" class="logo-img" />
+      <h1>Smart<span>Parking</span></h1>
+    </a>
     <nav class="auth-buttons">
       <button class="btn btn-login" routerLink="/login">Se connecter</button>
       <button class="btn btn-register" routerLink="/inscription">S'inscrire</button>
@@ -44,6 +42,10 @@
     <input formControlName="confirmMotDePasse" type="password" placeholder="Confirmez votre mot de passe" />
     <div *ngIf="submitted && registerForm.errors?.['mismatch']" class="error">
       Les mots de passe ne correspondent pas
+    </div>
+
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
     </div>
 
     <button type="submit">S'inscrire</button>

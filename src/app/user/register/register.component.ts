@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule,Router } from '@angular/router';
-
-
+import { RouterModule, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,8 +14,9 @@ import { RouterModule,Router } from '@angular/router';
 export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.registerForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
@@ -34,14 +34,28 @@ export class RegisterComponent {
     return pwd === confirmPwd ? null : { mismatch: true };
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-    if (this.registerForm.invalid) return;
+onSubmit(): void {
+  this.submitted = true;
+  this.errorMessage = null;
 
-    const formData = this.registerForm.value;
-    console.log('✅ Formulaire soumis avec succès :', formData);
-
-    // TODO : Envoyer à l’API d’inscription ici
-    this.router.navigate(['/login']);
+  if (this.registerForm.invalid) {
+    return;
   }
+
+  const { confirmMotDePasse, ...formData } = this.registerForm.value;
+
+  console.log('Données envoyées:', formData); // Ajoutez un log pour vérifier les données envoyées
+
+  this.authService.register(formData).subscribe({
+    next: (response) => {
+      console.log('Inscription réussie', response);
+      this.router.navigate(['/login']);
+    },
+    error: (error) => {
+      console.error('Erreur lors de l\'inscription', error);
+      this.errorMessage = error.error?.error || 'Une erreur est survenue lors de l\'inscription.';
+    }
+  });
+}
+
 }

@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { RouterModule,Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, RouterModule],
   standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule
+  ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -18,19 +23,12 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(): void {
-    this.authService.login(this.username, this.password).subscribe({
+    this.authService.login({ email: this.username, motDePasse: this.password }).subscribe({
       next: (response) => {
-        if (response.isAuthenticated) {
-          console.log('Connexion réussie');
-          // Redirigez en fonction du rôle de l'utilisateur
-          if (response.role === 'admin') {
-            this.router.navigate(['admin/dashboard']); // Route pour les administrateurs
-          } else {
-            this.router.navigate(['/parking']); // Route pour les clients
-          }
+        if (response.role === 'admin') {
+          this.router.navigate(['/admin/dashboard']);
         } else {
-          console.log('Échec de la connexion');
-          // Gérez l'échec de la connexion, par exemple, affichez un message d'erreur
+          this.router.navigate(['/parking']);
         }
       },
       error: (error) => {
