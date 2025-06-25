@@ -1,9 +1,7 @@
 <div class="login-container">
-
-  <!-- Header avec logo et boutons -->
   <header class="main-header">
-    <a routerLink="/accueil" class="logo">
-      <img src="assets/nab.jpeg" alt="Smart Parking Logo" class="logo-img" />
+    <a routerLink="/accueil" class="logo" aria-label="Retour à l'accueil">
+      <img src="assets/nab.jpeg" alt="Logo Smart Parking" class="logo-img" />
       <h1>Smart<span>Parking</span></h1>
     </a>
 
@@ -13,15 +11,29 @@
     </nav>
   </header>
 
-  <!-- Formulaire de connexion -->
-  <form class="login-box" (ngSubmit)="onSubmit()">
-    <h2>Connexion</h2>
+  <form class="login-box" (ngSubmit)="onSubmit()" aria-labelledby="loginTitle">
+    <h2 id="loginTitle">Connexion</h2>
 
     <label for="username">Nom d'utilisateur</label>
-    <input id="username" name="username" [(ngModel)]="username" required placeholder="Entrez votre nom d'utilisateur" />
+    <input
+      id="username"
+      name="username"
+      [(ngModel)]="username"
+      required
+      placeholder="Entrez votre nom d'utilisateur"
+      autocomplete="username"
+    />
 
     <label for="password">Mot de passe</label>
-    <input id="password" type="password" name="password" [(ngModel)]="password" required placeholder="Entrez votre mot de passe" />
+    <input
+      id="password"
+      type="password"
+      name="password"
+      [(ngModel)]="password"
+      required
+      placeholder="Entrez votre mot de passe"
+      autocomplete="current-password"
+    />
 
     <button type="submit">Se connecter</button>
   </form>
