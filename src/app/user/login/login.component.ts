@@ -28,7 +28,7 @@ export class LoginComponent {
         if (response.role === 'admin') {
           this.router.navigate(['/admin/dashboard']);
         } else {
-          this.router.navigate(['/parking']);
+          this.router.navigate(['/parkings']);
         }
       },
       error: (error) => {
