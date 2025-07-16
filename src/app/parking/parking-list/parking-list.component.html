@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <div class="container">
-  <h2>Liste des Parkings</h2>
+  <h2 class="title">Liste des Parkings</h2>
 
   <input
     type="text"
@@ -17,7 +17,15 @@
       [class.full]="parking.availableSpots === 0"
       (click)="openDetails(parking)"
     >
-      <img class="card-img" [src]="parking.imageUrl" [alt]="parking.name" />
+      <div class="image-wrapper">
+        <img
+  class="card-img"
+  [src]="parking.imageUrl"
+  (error)="parking.imageUrl = 'assets/default.jpg'"
+  alt="Image du parking"
+/>
+
+      </div>
       <div class="card-content">
         <h3>{{ parking.name }}</h3>
         <p class="location">{{ parking.location }}</p>
@@ -33,7 +41,12 @@
     <div class="modal-content">
       <span class="close" (click)="closeDetails()">&times;</span>
       <h3>{{ selectedParking.name }}</h3>
-      <img [src]="selectedParking.imageUrl" [alt]="selectedParking.name" />
+      <img
+        class="modal-img"
+        [src]="selectedParking.imageUrl"
+        [alt]="selectedParking.name"
+        (error)="selectedParking.imageUrl = 'assets/default.jpg'"
+      />
       <p><strong>Localisation :</strong> {{ selectedParking.location }}</p>
       <p><strong>Capacité :</strong> {{ selectedParking.capacity }}</p>
       <p><strong>Places disponibles :</strong> {{ selectedParking.availableSpots }}</p>

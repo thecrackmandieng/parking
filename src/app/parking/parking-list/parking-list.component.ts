@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../../header/header.component'; // Adjust the path as needed
+import { HeaderComponent } from '../../header/header.component';
+import { ParkingService } from '../../services/parking.service'; // Chemin ajusté
+import { HttpClientModule } from '@angular/common/http';
 
 interface Parking {
   id: number;
@@ -15,25 +17,34 @@ interface Parking {
 @Component({
   selector: 'app-parking-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent],
+  imports: [CommonModule, FormsModule, HeaderComponent, HttpClientModule],
   templateUrl: './parking-list.component.html',
   styleUrls: ['./parking-list.component.css']
 })
 export class ParkingListComponent implements OnInit {
   parkings: Parking[] = [];
   searchTerm: string = '';
-
   selectedParking: Parking | null = null;
   reservationConfirmed = false;
 
+  constructor(private parkingService: ParkingService) {}
+
   ngOnInit(): void {
-    this.parkings = [
-      { id: 1, name: 'Parking A', location: 'Dakar Centre', capacity: 100, availableSpots: 12, imageUrl: '../../../assets/vb.jpg' },
-      { id: 2, name: 'Parking B', location: 'Plateau', capacity: 80, availableSpots: 0, imageUrl: '../../../assets/banniere.webp' },
-      { id: 3, name: 'Parking C', location: 'Hann', capacity: 150, availableSpots: 75, imageUrl: '../../../assets/bm.jpg' },
-      { id: 4, name: 'Parking D', location: 'Médina', capacity: 50, availableSpots: 5, imageUrl: '../../../assets/jaune.webp' },
-      { id: 5, name: 'Parking E', location: 'Médina', capacity: 50, availableSpots: 50, imageUrl: '../../../assets/jaune.webp' }
-    ];
+    this.parkingService.getParkings().subscribe({
+      next: (data: any[]) => {
+        this.parkings = data.map(item => ({
+          id: item.id,
+          name: item.name,
+          location: item.location,
+          capacity: item.capacity,
+          availableSpots: item.availableSpots,
+          imageUrl: item.imageUrl || '../../../assets/default.jpg' // ou autre valeur par défaut
+        }));
+      },
+      error: err => {
+        console.error('Erreur lors du chargement des parkings :', err);
+      }
+    });
   }
 
   get filteredParkings(): Parking[] {
