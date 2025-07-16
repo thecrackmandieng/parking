@@ -19,12 +19,10 @@
     >
       <div class="image-wrapper">
         <img
-  class="card-img"
-  [src]="parking.imageUrl"
-  (error)="parking.imageUrl = 'assets/default.jpg'"
-  alt="Image du parking"
-/>
-
+          [src]="parking.imageUrl"
+          alt="Image du parking"
+          (error)="onImageError(parking)"
+        />
       </div>
       <div class="card-content">
         <h3>{{ parking.name }}</h3>
@@ -36,7 +34,6 @@
     </div>
   </div>
 
-  <!-- Modale détails + réservation -->
   <div class="modal" *ngIf="selectedParking">
     <div class="modal-content">
       <span class="close" (click)="closeDetails()">&times;</span>
@@ -45,7 +42,7 @@
         class="modal-img"
         [src]="selectedParking.imageUrl"
         [alt]="selectedParking.name"
-        (error)="selectedParking.imageUrl = 'assets/default.jpg'"
+        (error)="onImageError(selectedParking)"
       />
       <p><strong>Localisation :</strong> {{ selectedParking.location }}</p>
       <p><strong>Capacité :</strong> {{ selectedParking.capacity }}</p>

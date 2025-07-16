@@ -25,17 +25,16 @@ export class ParkingService {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
-  // (Bonus) Obtenir les détails d’un parking
+  // Obtenir les détails d’un parking
   getParkingById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
+
   updateParking(id: string, data: FormData): Observable<any> {
-  return this.http.patch(`${this.apiUrl}/parking/${id}`, data);
-}
+    return this.http.patch(`${this.apiUrl}/parking/${id}`, data);
+  }
 
-blockParking(id: string): Observable<any> {
-  // Selon ton API, une route pour bloquer un parking, ici exemple POST
-  return this.http.post(`${this.apiUrl}/parking/${id}/block`, {});
-}
-
+  blockParking(id: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/parking/${id}/block`, {});
+  }
 }

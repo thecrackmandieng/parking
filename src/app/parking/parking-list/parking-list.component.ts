@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HeaderComponent } from '../../header/header.component';
-import { ParkingService } from '../../services/parking.service'; // Chemin ajusté
 import { HttpClientModule } from '@angular/common/http';
 
+import { HeaderComponent } from '../../header/header.component';
+import { ParkingService } from '../../services/parking.service';
+import { ReservationService } from '../../services/reservation.service';
+
 interface Parking {
-  id: number;
+  id: string;
   name: string;
   location: string;
   capacity: number;
@@ -17,57 +19,87 @@ interface Parking {
 @Component({
   selector: 'app-parking-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, HttpClientModule],
+  imports: [CommonModule, FormsModule, HttpClientModule, HeaderComponent],
   templateUrl: './parking-list.component.html',
-  styleUrls: ['./parking-list.component.css']
+  styleUrls: ['./parking-list.component.css'],
 })
 export class ParkingListComponent implements OnInit {
   parkings: Parking[] = [];
   searchTerm: string = '';
   selectedParking: Parking | null = null;
-  reservationConfirmed = false;
+  reservationConfirmed: boolean = false;
 
-  constructor(private parkingService: ParkingService) {}
+  constructor(
+    private parkingService: ParkingService,
+    private reservationService: ReservationService
+  ) {}
 
   ngOnInit(): void {
+    this.loadParkings();
+  }
+
+  loadParkings(): void {
     this.parkingService.getParkings().subscribe({
       next: (data: any[]) => {
         this.parkings = data.map(item => ({
-          id: item.id,
+          id: item._id,
           name: item.name,
           location: item.location,
           capacity: item.capacity,
-          availableSpots: item.availableSpots,
-          imageUrl: item.imageUrl || '../../../assets/default.jpg' // ou autre valeur par défaut
+          availableSpots: item.availableSpots ?? item.capacity,
+          imageUrl: item.image ? `http://localhost:3000/uploads/${item.image}` : 'assets/default.jpg',
         }));
       },
-      error: err => {
-        console.error('Erreur lors du chargement des parkings :', err);
+      error: (error) => {
+        console.error('Erreur lors du chargement des parkings :', error);
       }
     });
   }
 
   get filteredParkings(): Parking[] {
-    if (!this.searchTerm) return this.parkings;
-    return this.parkings.filter(p =>
-      p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      p.location.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    const term = this.searchTerm.trim().toLowerCase();
+    return !term
+      ? this.parkings
+      : this.parkings.filter(p =>
+          p.name.toLowerCase().includes(term) ||
+          p.location.toLowerCase().includes(term)
+        );
   }
 
-  openDetails(parking: Parking) {
+  openDetails(parking: Parking): void {
     this.selectedParking = parking;
     this.reservationConfirmed = false;
   }
 
-  closeDetails() {
+  closeDetails(): void {
     this.selectedParking = null;
   }
 
-  reserve() {
+  reserve(): void {
     if (this.selectedParking && this.selectedParking.availableSpots > 0) {
-      this.selectedParking.availableSpots--;
-      this.reservationConfirmed = true;
+      // Exemple de payload minimal, à adapter selon ton backend
+      const reservationPayload = {
+        parkingId: this.selectedParking.id,
+        startTime: new Date().toISOString(),
+        endTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(), // +1h
+        status: 'active',
+      };
+
+      this.reservationService.createReservation(reservationPayload).subscribe({
+        next: (res) => {
+          this.selectedParking!.availableSpots--;
+          this.reservationConfirmed = true;
+          alert('Réservation confirmée !');
+        },
+        error: (err) => {
+          console.error('Erreur lors de la réservation', err);
+          alert('Erreur lors de la réservation');
+        }
+      });
     }
+  }
+
+  onImageError(parking: Parking) {
+    parking.imageUrl = 'assets/default.jpg';
   }
 }
