@@ -1,105 +1,220 @@
+/* ===== Conteneur principal ===== */
 .parking-container {
-  margin-left: 320px; /* Espace pour la sidebar */
-  padding: 20px;
+  margin-left: 320px; /* Pour laisser de la place à la sidebar */
+  padding: 30px;
   background-color: #f4f6f8;
-  min-height: 90vh;
+  min-height: 100vh;
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ===== Titre ===== */
 h2 {
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
   color: #2c3e50;
+  margin-bottom: 30px;
 }
 
+/* ===== Formulaire d'ajout ===== */
 .parking-actions {
   display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
 .parking-actions input {
   flex: 1;
-  padding: 8px 12px;
+  padding: 10px 14px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
+  font-size: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: border 0.3s ease;
+}
+
+.parking-actions input:focus {
+  border-color: #3498db;
+  outline: none;
 }
 
 .parking-actions button {
-  background-color: #3498db;
+  padding: 10px 18px;
   border: none;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 10px;
+  background-color: #3498db;
+  color: #fff;
   font-weight: bold;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  transition: background-color 0.3s ease;
 }
 
-.parking-list {
-  list-style: none;
-  padding: 0;
+.parking-actions button:hover {
+  background-color: #2980b9;
+}
+
+/* ===== Grille des cartes ===== */
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive */
+  gap: 20px;
+}
+
+/* ===== Carte de parking ===== */
+.card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  background-color: #ffffff;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ===== Texte de la carte ===== */
+.card-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 6px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #555;
   margin: 0;
 }
 
-.parking-item {
-  background: white;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 12px;
+/* ===== Boutons d'action ===== */
+.parking-buttons {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.parking-name {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .parking-buttons button {
-  margin-left: 8px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
-  color: #555;
+  color: #666;
+  font-size: 16px;
   transition: color 0.3s ease;
 }
 
 .parking-buttons button:hover {
   color: #e74c3c;
 }
-.parking-buttons {
+
+.parking-buttons i {
+  font-size: 18px;
+}
+
+/* ===== Image ===== */
+.parking-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+}
+
+/* ===== Icônes colorées par action ===== */
+.icon-view i {
+  color: #3498db;
+}
+.icon-edit i {
+  color: #f1c40f;
+}
+.icon-block i {
+  color: #7f8c8d;
+}
+.icon-delete i {
+  color: #e74c3c;
+}
+
+.parking-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+.parking-buttons button:hover {
+  transform: scale(1.2);
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal-box h3 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.modal-box input[type="text"],
+.modal-box input[type="number"],
+.modal-box input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
   gap: 10px;
 }
-.parking-buttons button i {
-  font-size: 20px;
-  
-}
 
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ===== Responsive Mobile & Tablette ===== */
+@media (max-width: 1200px) {
   .parking-container {
     margin-left: 0;
   }
+}
 
-  .parking-item {
+@media (max-width: 768px) {
+  .parking-actions {
     flex-direction: column;
-    align-items: flex-start;
   }
 
   .parking-buttons {
-    margin-top: 10px;
-    display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
-    gap: 10px;
   }
 }

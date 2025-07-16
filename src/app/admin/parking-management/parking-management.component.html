@@ -4,24 +4,197 @@
 <div class="parking-container">
   <h2>Gestion des parkings</h2>
 
-  <div class="parking-actions">
-    <input #newParkingName placeholder="Nom du nouveau parking" />
-    <button (click)="addParking(newParkingName.value); newParkingName.value=''">
-      <i class="fa fa-plus"></i> Ajouter
-    </button>
+  <!-- Bouton ouvrir modal ajout -->
+  <button class="btn btn-primary mb-3" (click)="openModal()">
+    <i class="fa fa-plus"></i> Nouveau parking
+  </button>
+
+  <!-- Modal d'ajout -->
+  <div class="modal-backdrop" *ngIf="showModal">
+    <div class="modal-box">
+      <h3>Ajouter un parking</h3>
+      <form (submit)="submitForm($event)">
+        <input
+          type="text"
+          [(ngModel)]="newParking.name"
+          name="name"
+          placeholder="Nom du parking"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="number"
+          [(ngModel)]="newParking.capacity"
+          name="capacity"
+          placeholder="Capacité"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="text"
+          [(ngModel)]="newParking.location"
+          name="location"
+          placeholder="Localisation"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          required
+          class="form-control mb-3"
+        />
+
+        <div class="modal-actions d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-success">Ajouter</button>
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <ul class="parking-list">
-    <li *ngFor="let parking of parkings" class="parking-item">
-      <span class="parking-name">{{ parking.name }}</span>
-      <div class="parking-buttons">
-        <button title="Voir"><i class="fa fa-eye"></i></button>
-        <button title="Modifier"><i class="fa fa-edit"></i></button>
-        <button title="Bloquer"><i class="fa fa-ban"></i></button>
-        <button title="Supprimer" (click)="deleteParking(parking.id)">
-          <i class="fa fa-trash"></i>
-        </button>
+  <!-- Modal d'édition -->
+  <div class="modal-backdrop" *ngIf="showEditModal">
+    <div class="modal-box">
+      <h3>Modifier le parking</h3>
+      <form (submit)="submitEditForm($event)">
+        <input
+          type="text"
+          [(ngModel)]="editParking.name"
+          name="editName"
+          placeholder="Nom du parking"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="number"
+          [(ngModel)]="editParking.capacity"
+          name="editCapacity"
+          placeholder="Capacité"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="text"
+          [(ngModel)]="editParking.location"
+          name="editLocation"
+          placeholder="Localisation"
+          required
+          class="form-control mb-2"
+        />
+
+        <input
+          type="file"
+          (change)="onEditFileSelected($event)"
+          class="form-control mb-3"
+        />
+
+        <div class="modal-actions d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-warning">Modifier</button>
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation blocage -->
+  <div class="modal-backdrop" *ngIf="showBlockModal">
+    <div class="modal-box">
+      <h4>Confirmer le blocage</h4>
+      <p>Voulez-vous vraiment bloquer ce parking ?</p>
+      <div class="modal-actions d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="closeBlockModal()">Annuler</button>
+        <button class="btn btn-danger" (click)="confirmBlock()">Bloquer</button>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
+
+  <!-- Modal de confirmation suppression -->
+  <div class="modal-backdrop" *ngIf="showDeleteModal">
+    <div class="modal-box">
+      <h4>Confirmer la suppression</h4>
+      <p>Voulez-vous vraiment supprimer ce parking ? Cette action est irréversible.</p>
+      <div class="modal-actions d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="closeDeleteModal()">Annuler</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de vue -->
+  <div class="modal-backdrop" *ngIf="showViewModal">
+    <div class="modal-box">
+      <h3>Détails du parking</h3>
+
+      <img
+        *ngIf="viewParking.image"
+        [src]="'http://localhost:3000/uploads/' + viewParking.image"
+        alt="Image du parking"
+        class="modal-view-image mb-3"
+      />
+
+      <p><strong>Nom :</strong> {{ viewParking.name }}</p>
+      <p><strong>Capacité :</strong> {{ viewParking.capacity || 'N/A' }}</p>
+      <p><strong>Localisation :</strong> {{ viewParking.location || 'Inconnue' }}</p>
+
+      <div class="modal-actions d-flex justify-content-end gap-2 mt-4">
+        <button class="btn btn-secondary" (click)="closeViewModal()">Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grille responsive des cartes -->
+  <div class="row g-4">
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let parking of parkings">
+      <div class="card shadow-sm h-100">
+        <img
+          *ngIf="parking.image"
+          [src]="'http://localhost:3000/uploads/' + parking.image"
+          alt="Image du parking"
+          class="card-img-top parking-image"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ parking.name }}</h5>
+          <p class="card-text mb-1">Capacité : {{ parking.capacity || 'N/A' }}</p>
+          <p class="card-text mb-3">Localisation : {{ parking.location || 'Inconnue' }}</p>
+
+          <div class="parking-buttons mt-auto d-flex justify-content-between gap-2">
+            <button
+              title="Voir"
+              class="btn btn-outline-primary btn-sm icon-view"
+              (click)="openViewModal(parking)"
+            >
+              <i class="fa fa-eye"></i>
+            </button>
+            <button
+              title="Modifier"
+              class="btn btn-outline-warning btn-sm icon-edit"
+              (click)="openEditModal(parking)"
+            >
+              <i class="fa fa-edit"></i>
+            </button>
+            <button
+              title="Bloquer"
+              class="btn btn-outline-secondary btn-sm icon-block"
+              (click)="openBlockModal(parking)"
+            >
+              <i class="fa fa-ban"></i>
+            </button>
+            <button
+              title="Supprimer"
+              class="btn btn-outline-danger btn-sm icon-delete"
+              (click)="openDeleteModal(parking)"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

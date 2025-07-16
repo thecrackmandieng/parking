@@ -6,22 +6,36 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ParkingService {
-  private apiUrl = 'http://localhost:3000/api/parking'; // Assurez-vous que l'URL est correcte
+  private apiUrl = 'http://localhost:3000/api/parking';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   // Obtenir tous les parkings
   getParkings(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  // Ajouter un nouveau parking
-  addParking(parkingData: { name: string }): Observable<any> {
-    return this.http.post(this.apiUrl, parkingData);
+  // Ajouter un parking
+  addParking(parkingData: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, parkingData);
   }
 
   // Supprimer un parking
-  deleteParking(parkingId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${parkingId}`);
+  deleteParking(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  // (Bonus) Obtenir les détails d’un parking
+  getParkingById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+  updateParking(id: string, data: FormData): Observable<any> {
+  return this.http.patch(`${this.apiUrl}/parking/${id}`, data);
+}
+
+blockParking(id: string): Observable<any> {
+  // Selon ton API, une route pour bloquer un parking, ici exemple POST
+  return this.http.post(`${this.apiUrl}/parking/${id}/block`, {});
+}
+
 }

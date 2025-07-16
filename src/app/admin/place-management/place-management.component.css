@@ -1,4 +1,4 @@
-/* Reset et styles de base */
+/* ===== Reset & Global ===== */
 body, html {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@ body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Conteneur principal */
+/* ===== Main Layout ===== */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -14,53 +14,53 @@ body, html {
   background-color: #f5f5f5;
 }
 
-/* Header */
-app-header {
-  padding: 1.5rem;
-  text-align: center;
-}
-
-/* Contenu principal */
 .main-content {
   display: flex;
   flex: 1;
   overflow: hidden;
 }
 
-/* Sidebar */
+.content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  font-size: 14px; /* ⬆ Taille générale du texte */
+}
+
+/* ===== Header ===== */
+app-header {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* ===== Sidebar ===== */
 app-sidebar {
   width: 250px;
   color: white;
   padding: 1.5rem;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
   overflow-y: auto;
 }
 
-/* Contenu principal */
-.content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-/* Style pour le filtre */
+/* ===== Filtre ===== */
 .filter-section {
   margin-bottom: 20px;
+  font-size: 18px;
 }
 
 .filter-section label {
   margin-right: 10px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .filter-section select {
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  font-size: 16px;
+  font-size: 18px;
 }
 
-/* Gestion des places de parking */
+/* ===== Parking Places ===== */
 .parking-places {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -71,15 +71,16 @@ app-sidebar {
 .place-card {
   background-color: white;
   border-radius: 8px;
-  padding: 25px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
   transition: transform 0.2s, box-shadow 0.2s;
-  height: 150px; /* Augmentation de la hauteur des cartes */
+  height: 150px; /* ⬆ hauteur augmentée */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-size: 20px; /* ⬆ texte plus grand */
 }
 
 .place-card:hover {
@@ -87,41 +88,50 @@ app-sidebar {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Couleurs selon statut */
 .occupied {
-  background-color: #2ecc71;
+  background-color: #c71400; /* 🔴 rouge */
   color: white;
 }
 
 .free {
-  background-color: #f7f7f7;
-  color: black;
+  background-color: #00be4f; /* ✅ vert */
+  color: white;
 }
 
-/* Formulaire pour ajouter une nouvelle place */
-input {
+/* ===== Formulaire ajout ===== */
+.add-place-form {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.add-place-form input {
   margin-right: 10px;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
+  font-size: 18px;
+  min-width: 200px;
 }
 
-button {
-  padding: 10px 20px;
+.add-place-form button {
+  padding: 12px 25px;
   background-color: #3498db;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   transition: background-color 0.2s;
 }
 
-button:hover {
+.add-place-form button:hover {
   background-color: #2980b9;
 }
 
-/* Responsive adjustments */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
@@ -137,5 +147,14 @@ button:hover {
 
   .parking-places {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .add-place-form {
+    flex-direction: column;
+  }
+
+  .add-place-form input {
+    width: 100%;
+    margin-right: 0;
   }
 }

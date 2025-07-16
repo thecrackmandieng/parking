@@ -1,29 +1,43 @@
 <div class="app-container">
-  <app-header>Parking Management</app-header>
+  <app-header></app-header>
+
   <div class="main-content">
-    <app-sidebar>Sidebar Content</app-sidebar>
+    <app-sidebar></app-sidebar>
+
     <div class="content">
       <h2>Place Management</h2>
+
+      <!-- Section de filtre -->
       <div class="filter-section">
         <label for="parkingIdFilter">Filter by Parking ID:</label>
         <select id="parkingIdFilter" [(ngModel)]="selectedParkingId" (change)="onParkingSelect()">
-          <option [value]="null">All Parking Lots</option>
-          <option *ngFor="let parking of uniqueParkingIds" [value]="parking">Parking ID: {{ parking }}</option>
+          <option [ngValue]="null">Tous les places</option>
+          <option *ngFor="let parking of uniqueParkingIds" [ngValue]="parking">
+            Parking {{ parking }}
+          </option>
         </select>
       </div>
+
+      <!-- Liste des places -->
       <div class="parking-places">
-        <div *ngFor="let place of getFilteredPlaces()" class="place-card" [ngClass]="{'occupied': place.isOccupied, 'free': !place.isOccupied}">
-          <span>{{ place.name }}</span>
-          <span>(Parking ID: {{ place.parkingId }})</span>
+        <div *ngFor="let place of getFilteredPlaces()"
+             class="place-card"
+             [ngClass]="{ 'occupied': place.isOccupied, 'free': !place.isOccupied }">
+
+          <span class="place-name">{{ place.name }}</span>
+          <span class="parking-id">(Parking {{ place.parkingId }})</span>
+
           <div *ngIf="place.isOccupied">
-            License Plate: {{ licensePlates[place.id] }}
+            Plaque d'immatriculation: {{ place.licensePlate || 'Unknown' }}
           </div>
         </div>
       </div>
-      <div>
-        <input #newPlaceName placeholder="New place name">
-        <input #parkingId placeholder="Parking ID">
-        <button (click)="addPlace(newPlaceName.value, +parkingId.value); newPlaceName.value=''; parkingId.value=''">Add Place</button>
+
+      <!-- Ajout d'une nouvelle place -->
+      <div class="add-place-form">
+        <input [(ngModel)]="newPlaceName" placeholder="New place name">
+        <input [(ngModel)]="newParkingId" type="number" placeholder="Parking ID">
+        <button (click)="createPlace()">Ajouter Place</button>
       </div>
     </div>
   </div>
