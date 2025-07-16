@@ -1,9 +1,45 @@
-<div>
-  <h2>Reservation Management</h2>
-  <ul>
-    <li *ngFor="let reservation of reservations">
-      Reservation ID: {{ reservation.id }} (User ID: {{ reservation.userId }}, Place ID: {{ reservation.placeId }}, Date: {{ reservation.date }})
-      <button (click)="deleteReservation(reservation.id)">Delete</button>
-    </li>
-  </ul>
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="reservation-container">
+  <h2>Liste des Réservations</h2>
+
+  <div class="table-responsive">
+    <table class="reservation-table">
+      <thead>
+        <tr>
+          <th>Nom complet</th>
+          <th>Téléphone</th>
+          <th>Email</th>
+          <th>Date début</th>
+          <th>Date fin</th>
+          <th>Immatriculation</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.user?.nom || 'Inconnu' }} {{ reservation.user?.prenom || '' }}</td>
+          <td>{{ reservation.user?.phone || 'N/A' }}</td>
+          <td>{{ reservation.user?.email || 'N/A' }}</td>
+          <td>{{ reservation.startTime | date: 'short' }}</td>
+          <td>{{ reservation.endTime | date: 'short' }}</td>
+          <td>{{ reservation.car?.licensePlate || 'N/A' }}</td>
+          <td class="action-buttons">
+            <!-- Bouton Annuler -->
+            <button class="btn-cancel" (click)="cancelReservation(reservation._id)">
+              <i class="fa-solid fa-xmark"></i>
+              <span class="label">Annuler</span>
+            </button>
+
+            <!-- Bouton Supprimer avec modal -->
+            <button class="btn-delete" (click)="deleteReservation(reservation._id)">
+              <i class="fa-solid fa-trash"></i>
+              <span class="label">Supprimer</span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

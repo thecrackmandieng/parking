@@ -1,78 +1,106 @@
+/* ======= Dashboard Global Container ======= */
 .dashboard-container {
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
-  margin-left: 320px; /* Espace pour sidebar */
-  padding: 20px;
+  margin-left: 320px; /* Laisse la place pour la sidebar */
+  padding: 30px;
   background-color: #f4f6f8;
-  min-height: calc(100vh - 100px); /* Ajuste la hauteur pour le footer */
+  min-height: 94vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
+  color: #2c3e50;
   transition: margin-left 0.3s ease;
+  margin-top: 50px;
 }
 
+/* ======= Titre ======= */
 h2 {
-  margin-bottom: 25px;
-  font-weight: bolder;
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #2c3e50;
 }
 
+/* ======= Cards Section ======= */
 .cards-wrapper {
   display: flex;
-  gap: 60px;
   flex-wrap: wrap;
-  justify-content: start;
+  gap: 30px;
+  justify-content: flex-start;
 }
 
 .card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-  padding: 30px 60px;
   flex: 1 1 250px;
-  max-width: 360px;
+  max-width: 320px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px 20px;
   text-align: center;
-  transition: transform 0.3s ease;
-  cursor: default;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  transform: translateY(-10px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+  background-color: #f0f8ff;
 }
 
+/* ======= Icon ======= */
 .card-icon {
-  font-size: 48px;
-  color: #2980b9;
+  font-size: 50px;
+  color: #3498db;
   margin-bottom: 15px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
+.card:hover .card-icon {
+  color: #1e6fa5;
+  animation: bounce 0.4s;
+}
+
+/* ======= Stat Number ======= */
 .card h3 {
   font-size: 36px;
-  margin: 0 0 8px 0;
   font-weight: 700;
+  margin: 0 0 8px 0;
 }
 
+/* ======= Stat Label ======= */
 .card p {
-  font-size: 18px;
+  font-size: 16px;
   color: #555;
+  margin: 0;
 }
 
+/* ======= Animation ======= */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
 
-/* ======== Courbe Historique ========== */
+/* ======= Chart Wrapper ======= */
 .chart-wrapper {
-  margin-top: 40px;
+  margin-top: 50px;
   background-color: #ffffff;
-  padding: 49px;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-  height: 450px;
-  max-width: 60%;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  height: 460px;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
-/* Responsive pour mobiles */
-@media (max-width: 768px) {
+.chart-wrapper h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+/* ======= Responsive Design ======= */
+@media (max-width: 1200px) {
   .dashboard-container {
     margin-left: 0;
-    padding: 15px;
+    padding: 20px;
   }
 
   .cards-wrapper {
@@ -82,31 +110,20 @@ h2 {
   .card {
     max-width: 100%;
   }
-}
-@keyframes bounce {
-  0%, 100% { transform: translateY(0);}
-  50% { transform: translateY(-15px);}
+
+  .chart-wrapper {
+    padding: 30px 20px;
+  }
 }
 
-.card:hover .card-icon {
-  animation: bounce 0.5s;
-}
-.card:hover h3 {
-  color: #2980b9;
-}
-.card:hover p {
-  color: #555;
-}
-.card:hover {
-  background-color: #f0f8ff;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-}
-.card-icon:hover {
-  color: #3498db;
-  transform: scale(1.1);
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+@media (max-width: 768px) {
+  .cards-wrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .chart-wrapper {
+    padding: 20px;
+    height: auto;
+  }
 }

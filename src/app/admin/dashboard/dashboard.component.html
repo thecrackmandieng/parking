@@ -5,36 +5,52 @@
   <h2>Admin Dashboard</h2>
 
   <div class="cards-wrapper">
+    <!-- Total des réservations -->
     <div class="card">
       <i class="fa-solid fa-calendar-check card-icon"></i>
       <h3>{{ numberOfReservations }}</h3>
       <p>Réservations</p>
     </div>
 
+    <!-- Places disponibles -->
     <div class="card">
-      <i class="fa-solid fa-map-marker-alt card-icon"></i>
+      <i class="fa-solid fa-parking card-icon" style="color: #27ae60;"></i>
       <h3>{{ availableSpots }}</h3>
       <p>Places disponibles</p>
     </div>
 
+    <!-- Places occupées -->
     <div class="card">
-      <i class="fa-solid fa-car card-icon"></i>
+      <i class="fa-solid fa-car-crash card-icon" style="color: #c0392b;"></i>
+      <h3>{{ occupiedSpots }}</h3>
+      <p>Places occupées</p>
+    </div>
+
+    <!-- Total des places -->
+    <div class="card">
+      <i class="fa-solid fa-th-large card-icon" style="color: #8e44ad;"></i>
+      <h3>{{ totalSpots }}</h3>
+      <p>Total des places</p>
+    </div>
+
+    <!-- Nombre de parkings -->
+    <div class="card">
+      <i class="fa-solid fa-warehouse card-icon" style="color: #2980b9;"></i>
       <h3>{{ numberOfParkings }}</h3>
       <p>Parkings</p>
     </div>
   </div>
 
+  <!-- Section Graphique -->
   <div class="chart-wrapper" style="margin-top: 40px;">
-  <h3>Historique des réservations</h3>
-  <div *ngIf="isBrowser">
-  <canvas baseChart
-          [data]="lineChartData"
-          [options]="lineChartOptions"
-          [legend]="lineChartLegend"
-          [type]="lineChartType">
-  </canvas>
-</div>
-
-</div>
-
+    <h3>Historique des réservations</h3>
+    <div *ngIf="isBrowser">
+      <canvas baseChart
+              [data]="lineChartData"
+              [options]="lineChartOptions"
+              [legend]="lineChartLegend"
+              [type]="lineChartType">
+      </canvas>
+    </div>
+  </div>
 </div>

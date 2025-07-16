@@ -22,11 +22,11 @@ import { SocketService } from '../../services/socket.service';
 })
 export class PlaceManagementComponent implements OnInit {
   places: Place[] = [];
-  uniqueParkingIds: number[] = [];
-  selectedParkingId: number | null = null;
+  uniqueParkings: any[] = []; // Contiendra les parkings uniques (objets ou ids)
+  selectedParkingId: string | null = null;
 
   newPlaceName = '';
-  newParkingId: number | null = null;
+  newParkingId: string | null = null;
 
   isBrowser: boolean;
 
@@ -41,24 +41,21 @@ export class PlaceManagementComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPlaces();
 
-    // ⚠️ Socket uniquement dans le navigateur (évite erreurs SSR)
     if (this.isBrowser) {
       this.listenToSocketEvents();
     }
   }
 
-  /* ─────────── Récupération des places ─────────── */
   fetchPlaces(): void {
     this.placeService.getAllPlaces().subscribe({
-      next: (data) => {
-        this.places = Array.isArray(data) ? data : (data as any).places || [];
-        this.updateParkingIds();
+      next: (response: any) => {
+        this.places = response.places ?? response ?? [];
+        this.updateUniqueParkings();
       },
       error: (err) => console.error('❌ Erreur chargement places', err)
     });
   }
 
-  /* ─────────── Création de place ─────────── */
   createPlace(): void {
     if (!this.newPlaceName || this.newParkingId === null) return;
 
@@ -68,7 +65,7 @@ export class PlaceManagementComponent implements OnInit {
     }).subscribe({
       next: (newPlace) => {
         this.places.push(newPlace);
-        this.updateParkingIds();
+        this.updateUniqueParkings();
         this.newPlaceName = '';
         this.newParkingId = null;
       },
@@ -76,30 +73,39 @@ export class PlaceManagementComponent implements OnInit {
     });
   }
 
-  /* ─────────── Mise à jour des parkings ─────────── */
-  updateParkingIds(): void {
-    if (!this.places || this.places.length === 0) {
-      this.uniqueParkingIds = [];
-      return;
-    }
+  updateUniqueParkings(): void {
+    const parkings = this.places.map(p => p.parkingId);
+    const seen = new Set();
+    this.uniqueParkings = parkings.filter((p: any) => {
+      const id = this.isObject(p) ? p._id : p;
+      if (seen.has(id)) return false;
+      seen.add(id);
+      return true;
+    });
 
-    this.uniqueParkingIds = [...new Set(this.places.map(p => p.parkingId))];
-    if (this.selectedParkingId === null && this.uniqueParkingIds.length > 0) {
-      this.selectedParkingId = this.uniqueParkingIds[0];
+    if (!this.selectedParkingId && this.uniqueParkings.length > 0) {
+      this.selectedParkingId = this.isObject(this.uniqueParkings[0])
+        ? this.uniqueParkings[0]._id
+        : this.uniqueParkings[0];
     }
   }
 
   getFilteredPlaces(): Place[] {
-    return this.selectedParkingId === null
-      ? this.places
-      : this.places.filter(p => p.parkingId === this.selectedParkingId);
+    if (!this.selectedParkingId) return this.places;
+    return this.places.filter(place => {
+      const pid = this.isObject(place.parkingId) ? place.parkingId._id : place.parkingId;
+      return pid === this.selectedParkingId;
+    });
+  }
+
+  isObject(value: any): value is { _id: string; name: string } {
+    return value && typeof value === 'object' && '_id' in value && 'name' in value;
   }
 
   onParkingSelect(): void {
-    // Optionnel si tu veux déclencher un comportement au changement
+    // Optionnel : action au changement
   }
 
-  /* ─────────── Réception des événements temps réel ─────────── */
   listenToSocketEvents(): void {
     this.socketService.onCarEntry().subscribe(data => {
       const place = this.places.find(p => p._id === data.placeId);

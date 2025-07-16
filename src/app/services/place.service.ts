@@ -1,11 +1,17 @@
+// place.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface Parking {
+  _id: string;
+  name: string;
+}
+
 export interface Place {
   _id?: string;
   name: string;
-  parkingId: number;
+  parkingId: string | Parking;
   isOccupied?: boolean;
   licensePlate?: string;
 }
@@ -16,11 +22,12 @@ export class PlaceService {
 
   constructor(private http: HttpClient) {}
 
-  getAllPlaces(): Observable<{ places: Place[] }> {
-    return this.http.get<{ places: Place[] }>(this.apiUrl);
-  }
+ getAllPlaces(): Observable<{ places: Place[] }> {
+  return this.http.get<{ places: Place[] }>(this.apiUrl);
+}
 
-  createPlace(place: { name: string; parkingId: number }): Observable<any> {
-    return this.http.post(this.apiUrl, place);
+
+  createPlace(place: { name: string; parkingId: string }): Observable<Place> {
+    return this.http.post<Place>(this.apiUrl, place);
   }
 }

@@ -12,14 +12,19 @@ export class DashboardService {
 
   // Obtenir les statistiques du tableau de bord
   getDashboardStats(): Observable<{
-    numberOfReservations: number,
-    availableSpots: number,
-    numberOfParkings: number
-  }> {
+  numberOfReservations: number;
+  availableSpots: number;
+  occupiedSpots: number;
+  totalSpots: number;
+  numberOfParkings: number;
+  }>
+  {
     return this.http.get<{
       numberOfReservations: number,
       availableSpots: number,
-      numberOfParkings: number
+      numberOfParkings: number,
+      occupiedSpots: number,
+      totalSpots: number
     }>(`${this.apiUrl}/stats`);
   }
 

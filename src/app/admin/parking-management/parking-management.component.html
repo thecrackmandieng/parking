@@ -2,12 +2,14 @@
 <app-sidebar></app-sidebar>
 
 <div class="parking-container">
+    <!-- Bouton ouvrir modal ajout -->
+  <button class="custom-parking-button" (click)="openModal()">
+  <i class="fa fa-plus"></i> Nouveau parking
+</button>
   <h2>Gestion des parkings</h2>
 
-  <!-- Bouton ouvrir modal ajout -->
-  <button class="btn btn-primary mb-3" (click)="openModal()">
-    <i class="fa fa-plus"></i> Nouveau parking
-  </button>
+
+
 
   <!-- Modal d'ajout -->
   <div class="modal-backdrop" *ngIf="showModal">

@@ -7,13 +7,13 @@
     <div class="content">
       <h2>Place Management</h2>
 
-      <!-- Section de filtre -->
+      <!-- Filtrage par parking -->
       <div class="filter-section">
-        <label for="parkingIdFilter">Filter by Parking ID:</label>
+        <label for="parkingIdFilter">Filtrer par Parking :</label>
         <select id="parkingIdFilter" [(ngModel)]="selectedParkingId" (change)="onParkingSelect()">
-          <option [ngValue]="null">Tous les places</option>
-          <option *ngFor="let parking of uniqueParkingIds" [ngValue]="parking">
-            Parking {{ parking }}
+          <option [ngValue]="null">Tous les parkings</option>
+          <option *ngFor="let parking of uniqueParkings" [ngValue]="isObject(parking) ? parking._id : parking">
+            {{ isObject(parking) ? parking.name : parking }}
           </option>
         </select>
       </div>
@@ -25,18 +25,30 @@
              [ngClass]="{ 'occupied': place.isOccupied, 'free': !place.isOccupied }">
 
           <span class="place-name">{{ place.name }}</span>
-          <span class="parking-id">(Parking {{ place.parkingId }})</span>
+          <span class="parking-id">
+            (Parking :
+            <ng-container *ngIf="isObject(place.parkingId); else fallback">
+              {{ place.parkingId.name }}
+            </ng-container>
+            <ng-template #fallback>{{ place.parkingId }}</ng-template>
+            )
+          </span>
 
           <div *ngIf="place.isOccupied">
-            Plaque d'immatriculation: {{ place.licensePlate || 'Unknown' }}
+            Plaque d'immatriculation : {{ place.licensePlate || 'Inconnue' }}
           </div>
         </div>
       </div>
 
-      <!-- Ajout d'une nouvelle place -->
+      <!-- Formulaire ajout -->
       <div class="add-place-form">
-        <input [(ngModel)]="newPlaceName" placeholder="New place name">
-        <input [(ngModel)]="newParkingId" type="number" placeholder="Parking ID">
+        <input [(ngModel)]="newPlaceName" placeholder="Nom de la nouvelle place" />
+        <select [(ngModel)]="newParkingId">
+          <option [ngValue]="null">Choisir un parking</option>
+          <option *ngFor="let parking of uniqueParkings" [ngValue]="isObject(parking) ? parking._id : parking">
+            {{ isObject(parking) ? parking.name : parking }}
+          </option>
+        </select>
         <button (click)="createPlace()">Ajouter Place</button>
       </div>
     </div>

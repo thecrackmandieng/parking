@@ -14,9 +14,11 @@ import { DashboardService } from '../../services/dashboard.service';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  numberOfReservations: number = 0;
-  availableSpots: number = 0;
-  numberOfParkings: number = 0;
+  numberOfReservations = 0;
+  availableSpots = 0;
+  occupiedSpots = 0;
+  totalSpots = 0;
+  numberOfParkings = 0;
 
   isBrowser: boolean;
 
@@ -61,6 +63,8 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getDashboardStats().subscribe(stats => {
       this.numberOfReservations = stats.numberOfReservations;
       this.availableSpots = stats.availableSpots;
+      this.occupiedSpots = stats.occupiedSpots;
+      this.totalSpots = stats.totalSpots;
       this.numberOfParkings = stats.numberOfParkings;
     });
 
