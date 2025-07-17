@@ -53,7 +53,22 @@ export class AuthService {
     }
     this.isAuthenticatedSubject.next(false);
   }
+// ...existing code...
 
+// Ajoute cette méthode dans AuthService
+getUserId(): string | null {
+  const token = this.getToken();
+  if (!token) return null;
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.userId || null; // Assure-toi que le backend met bien userId dans le payload du JWT
+  } catch (e) {
+    return null;
+  }
+}
+
+// ...existing code...
   // Vérifier si l'utilisateur est authentifié
   isAuthenticated(): boolean {
     return this.isAuthenticatedSubject.value;

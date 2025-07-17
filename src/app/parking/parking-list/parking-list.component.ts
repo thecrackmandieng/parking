@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from '../../header/header.component';
 import { ParkingService } from '../../services/parking.service';
 import { ReservationService } from '../../services/reservation.service';
+import { AuthService } from '../../services/auth.service'; // Ajoute cette ligne
+
 
 interface Parking {
   id: string;
@@ -31,7 +33,9 @@ export class ParkingListComponent implements OnInit {
 
   constructor(
     private parkingService: ParkingService,
-    private reservationService: ReservationService
+    private reservationService: ReservationService,
+    private authService: AuthService // Ajoute ici !
+
   ) {}
 
   ngOnInit(): void {
@@ -74,30 +78,49 @@ export class ParkingListComponent implements OnInit {
   closeDetails(): void {
     this.selectedParking = null;
   }
+  detectedCarId: string = ''; // à mettre à jour dès que la caméra détecte une voiture
 
-  reserve(): void {
-    if (this.selectedParking && this.selectedParking.availableSpots > 0) {
-      // Exemple de payload minimal, à adapter selon ton backend
-      const reservationPayload = {
-        parkingId: this.selectedParking.id,
-        startTime: new Date().toISOString(),
-        endTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(), // +1h
-        status: 'active',
-      };
 
-      this.reservationService.createReservation(reservationPayload).subscribe({
-        next: (res) => {
-          this.selectedParking!.availableSpots--;
-          this.reservationConfirmed = true;
-          alert('Réservation confirmée !');
-        },
-        error: (err) => {
-          console.error('Erreur lors de la réservation', err);
-          alert('Erreur lors de la réservation');
-        }
-      });
+// ...existing code...
+successMessage: string = ''; // Ajoute cette propriété
+
+// ...existing code...
+reserve(): void {
+  if (this.selectedParking && this.selectedParking.availableSpots > 0) {
+    const userId = this.authService.getUserId();
+
+    const reservationPayload: any = {
+      user: userId,
+      parkingId: this.selectedParking.id,
+      startTime: new Date().toISOString(),
+      endTime: new Date(new Date().getTime() + 60 * 60 * 1000).toISOString(),
+    };
+
+    if (this.detectedCarId) {
+      reservationPayload.car = this.detectedCarId;
     }
+
+    this.reservationService.createReservation(reservationPayload).subscribe({
+      next: (res) => {
+        this.selectedParking!.availableSpots--;
+        this.reservationConfirmed = true;
+        this.successMessage = 'Réservation confirmée !';
+        setTimeout(() => {
+          this.closeDetails(); // Ferme le modal après 2 secondes
+          this.successMessage = '';
+        }, 2000);
+      },
+      error: (err) => {
+        console.error('Erreur lors de la réservation', err);
+        this.successMessage = '';
+        alert('Erreur lors de la réservation');
+      }
+    });
+  } else {
+    alert('Aucune place disponible.');
   }
+}
+  // Gérer l'erreur de chargement de l'image
 
   onImageError(parking: Parking) {
     parking.imageUrl = 'assets/default.jpg';

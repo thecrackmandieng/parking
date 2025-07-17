@@ -58,6 +58,9 @@
           ? 'Complet'
           : 'Réserver' }}
       </button>
+      <div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>
     </div>
   </div>
 </div>
